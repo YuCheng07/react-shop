@@ -43,10 +43,26 @@ function UserNativeLogin() {
 	}
 
 	const handleLogin = async () => {
+		const accountRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+		const passwordRegex = /^.{6,}$/
 		if (account.trim() === '' || password.trim() === '') {
 			Swal.fire({
 				title: '提醒您!',
 				text: '帳號密碼不能為空',
+				icon: 'error',
+				confirmButtonText: '確認',
+			})
+		} else if (!accountRegex.test(account.trim())) {
+			Swal.fire({
+				title: '提醒您!',
+				text: '帳號格式必須是信箱',
+				icon: 'error',
+				confirmButtonText: '確認',
+			})
+		} else if (!passwordRegex.test(password.trim())) {
+			Swal.fire({
+				title: '提醒您!',
+				text: '密碼最少需要6位數',
 				icon: 'error',
 				confirmButtonText: '確認',
 			})
@@ -63,11 +79,48 @@ function UserNativeLogin() {
 					showConfirmButton: false,
 					timer: 1800,
 				})
-				setTimeout(()=> {
+				setTimeout(() => {
 					navigate('/')
 				}, 1800)
 			} else if (isCheck.status === 'error') {
-				alert(isCheck.message)
+				if (isCheck.message === '無此帳號') {
+					try {
+						const res = await axios.post(`${API_URL}/api/signup`, {
+							email: account.trim(),
+							password: password.trim(),
+						})
+						if (res.status === 'success') {
+							rememberLoginInfo()
+							localStorage.setItem('token', JSON.stringify(res.data.token))
+							setUserIsLogin(true)
+							Swal.fire({
+								title: '成功!',
+								text: '自動註冊登入成功，自動跳轉中...',
+								icon: 'success',
+								showConfirmButton: false,
+								timer: 1800,
+							})
+							setTimeout(() => {
+								navigate('/')
+							}, 1800)
+						}
+					} catch (error) {
+						console.log(error)
+						Swal.fire({
+							title: '提醒您!',
+							text: '自動註冊失敗，請重新嘗試',
+							icon: 'error',
+							confirmButtonText: '確認',
+						})
+					}
+				} else {
+					Swal.fire({
+						title: '提醒您!',
+						text: isCheck.message,
+						icon: 'error',
+						confirmButtonText: '確認',
+					})
+				}
 			}
 		}
 	}
