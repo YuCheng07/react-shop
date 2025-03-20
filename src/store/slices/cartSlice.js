@@ -18,9 +18,12 @@ export const cartSlice = createSlice({
 			} else {
 				state.cartList.push({ ...action.payload, quantity: 1 })
 			}
+      localStorage.setItem('cartList', JSON.stringify(state.cartList))
 		},
     removeItemFromCart: (state, action) => {
       state.cartList = state.cartList.filter(item => item.id !== action.payload)
+      localStorage.setItem('cartList', JSON.stringify(state.cartList))
+      
     },
     incrementItemQuantity: (state, action) => {
       state.cartList = state.cartList.map((item) => {
@@ -30,6 +33,7 @@ export const cartSlice = createSlice({
           return item
         }
       })
+      localStorage.setItem('cartList', JSON.stringify(state.cartList))
     },
     decrementItemQuantity: (state, action) => {
       state.cartList = state.cartList.map((item) => {
@@ -39,6 +43,7 @@ export const cartSlice = createSlice({
           return item
         }
       })
+      localStorage.setItem('cartList', JSON.stringify(state.cartList))
     },
     setCartList: (state, action) => {
       state.cartList = action.payload

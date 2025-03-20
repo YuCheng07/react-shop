@@ -11,6 +11,7 @@ function ProductItem({ itemData }) {
 
 	const handleAddToCartBtn = () => {
 		const saveCartList = JSON.parse(localStorage.getItem('cartList'))
+		
 		if(saveCartList > 0){
 			dispatch(setCartList(saveCartList))
 		}else{
@@ -20,8 +21,9 @@ function ProductItem({ itemData }) {
 				price: itemData.price,
 			}
 			dispatch(addToCart(saveItemData))
-			localStorage.setItem('cartList', JSON.stringify(cartList))
+			
 		}
+		
 		Swal.fire({
 			title: '成功!',
 			text: '已將商品加入到購物車',
