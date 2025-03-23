@@ -35,7 +35,7 @@ function ProductItem({ className, itemData }) {
 		<div className="relative anime-item w-[300px] border-1 border-[#DAD2BC] box-border overflow-hidden rounded-xl">
 			<div className="max-w-[300px] h-[315px] bg-white">
 				<img
-					src={itemData.image ? itemData.image : '/src/assets/image/item01.jpg'}
+					src={itemData.image ? itemData.image : '/assets/image/item01.jpg'}
 					alt=""
 					className="w-full h-full object-cover"
 				/>

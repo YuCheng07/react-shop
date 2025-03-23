@@ -17,7 +17,7 @@ function CheckoutCartList() {
 						>
 							<div className="max-w-30 h-20">
 								<img
-									src={item.image ? item.image : '/src/assets/image/item02.jpg'}
+									src={item.image ? item.image : '/assets/image/item02.jpg'}
 									alt=""
 									className="w-full h-full object-cover object-center"
 								/>

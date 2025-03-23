@@ -50,7 +50,7 @@ function CartItem({ itemData }) {
 				{
 					<img
 						src={
-							itemData.image ? itemData.image : '/src/assets/image/item02.jpg'
+							itemData.image ? itemData.image : '/assets/image/item02.jpg'
 						}
 						alt=""
 						className="w-full h-full object-cover object-center"

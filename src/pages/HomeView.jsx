@@ -47,7 +47,7 @@ function HomeView() {
 				<section className="w-full mb-42">
 					<div className="mx-auto w-[940px] h-[496px] bg-green-400 text-center leading-[496px] relative">
 						<img
-							src="src/assets/image/wallpaper01.jpg"
+							src="/assets/image/wallpaper01.jpg"
 							alt=""
 							className="w-full h-full object-cover"
 						/>
