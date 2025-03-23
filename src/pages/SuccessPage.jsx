@@ -1,12 +1,12 @@
 import Nav from '@/components/Nav.jsx'
 import MainFooter from '@/components/MainFooter.jsx'
 import Check from '@/components/icon/Check.jsx'
-
+import RocketBtn from '@/components/RocketBtn'
 import { Link } from "react-router"
 
 function SuccessPage() {
 	return (
-		<div className="page-container">
+		<div className="page-container bg-[#A99985]">
 			<header className="w-full">
 				<Nav className="mx-auto" />
 			</header>
@@ -58,6 +58,7 @@ function SuccessPage() {
 			<footer className="w-full">
 				<MainFooter className="mx-auto" />
 			</footer>
+			<RocketBtn />
 		</div>
 	)
 }

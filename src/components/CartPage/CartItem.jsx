@@ -31,7 +31,7 @@ function CartItem({ itemData }) {
 	}
 
 	const handleDecrementItem = () => {
-		if(itemData.quantity === 1){
+		if (itemData.quantity === 1) {
 			dispatch(removeItemFromCart(itemData.id))
 			Swal.fire({
 				title: '成功!',
@@ -39,17 +39,19 @@ function CartItem({ itemData }) {
 				icon: 'success',
 				confirmButtonText: '確認',
 			})
-		}else{
+		} else {
 			dispatch(decrementItemQuantity(itemData.id))
 		}
 	}
 
 	return (
 		<div className="w-full flex items-center justify-between py-5  gap-5">
-			<div className="min-w-[110px] h-[110px]">
+			<div className="max-w-[110px] h-[110px]">
 				{
 					<img
-						src="https://bit.ly/2zBjQuq"
+						src={
+							itemData.image ? itemData.image : '/src/assets/image/item02.jpg'
+						}
 						alt=""
 						className="w-full h-full object-cover object-center"
 					/>
@@ -81,8 +83,8 @@ function CartItem({ itemData }) {
 				</div>
 			</div>
 			<h3 className="text-xl font-extrabold min-w-[80px]">
-				<p className='select-none'>NT$ </p>
-				<p className='select-none'>{itemTotalPrice}</p>
+				<p className="select-none">NT$ </p>
+				<p className="select-none">{itemTotalPrice}</p>
 			</h3>
 			<div
 				onClick={handleDeleteItem}

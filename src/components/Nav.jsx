@@ -3,13 +3,13 @@ import { useEffect } from 'react'
 import Ghost from '@/components/icon/Ghost.jsx'
 import Cart from '@/components/icon/Cart.jsx'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUserIsLogin } from '@/store/slices/userSlice.js'
+import { setIsUserLogin } from '@/store/slices/userSlice.js'
 import Swal from 'sweetalert2'
 
 function Nav({ className }) {
 	const navigate = useNavigate()
 
-	const { userIsLogin } = useSelector((state) => state.user)
+	const { isUserLogin } = useSelector((state) => state.user)
 	const dispatch = useDispatch()
 
 	const switchUserState = () => {
@@ -31,20 +31,20 @@ function Nav({ className }) {
 						backdrop: false,
 						width: '20em',
 					})
-					dispatch(setUserIsLogin(false))
+					dispatch(setIsUserLogin(false))
 					localStorage.removeItem('token')
 				}
 			})
 		} else {
 			navigate('/login')
-			dispatch(setUserIsLogin(false))
+			dispatch(setIsUserLogin(false))
 		}
 	}
 
 	useEffect(() => {
 		const token = localStorage.getItem('token')
 		if (token) {
-			dispatch(setUserIsLogin(true))
+			dispatch(setIsUserLogin(true))
 		}
 	}, [])
 
@@ -66,16 +66,27 @@ function Nav({ className }) {
 					アニメストア
 				</h1>
 			</div>
-			<div className="w-full flex justify-end items-center mr-[42px]" id="">
-				<ul className="grid grid-cols-3 gap-[60px] mr-20 text-[#252323] font-bold">
-					<li className="hover: cursor-pointer">
+
+			<div className=" w-full flex items-center mr-[42px]" id="">
+				<ul className="w-full h-full flex justify-end gap-4 mr-[42px] text-[#252323] font-bold">
+					<li className=" w-20 h-full flex justify-center items-center">
 						<Link to="/">首頁</Link>
 					</li>
-					<li className="hover: cursor-pointer">
+					<li className="w-20 h-full flex justify-center items-center">
 						<Link to="/product">商品</Link>
 					</li>
-					<li className="hover: cursor-pointer">
-						<a onClick={switchUserState}>{userIsLogin ? '登出' : '登入'}</a>
+					{isUserLogin && (
+						<li className="w-20 h-full flex justify-center items-center">
+							<Link to="/member">管理</Link>
+						</li>
+					)}
+					{isUserLogin && (
+						<li className="w-20 h-full flex justify-center items-center hover: cursor-pointer">
+							<Link to="/favorite">收藏</Link>
+						</li>
+					)}
+					<li className="w-20 h-full flex justify-center items-center hover: cursor-pointer">
+						<a onClick={switchUserState}>{isUserLogin ? '登出' : '登入'}</a>
 					</li>
 				</ul>
 				<Link to="/cart">

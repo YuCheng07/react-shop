@@ -3,6 +3,7 @@ import MainFooter from '@/components/MainFooter.jsx'
 import ProductItem from '@/components/ProductItem.jsx'
 import CaretLeft from '@/components/icon/CaretLeft.jsx'
 import CaretRight from '@/components/icon/CaretRight.jsx'
+import RocketBtn from '@/components/RocketBtn'
 import axios from 'axios'
 import { useState, useEffect, useMemo } from 'react'
 
@@ -109,7 +110,7 @@ function Product() {
 	}
 
 	return (
-		<div className="page-container">
+		<div className="page-container bg-[#A99985]">
 			<header className="w-full">
 				<Nav className="mx-auto" />
 			</header>
@@ -236,6 +237,7 @@ function Product() {
 			<footer className="w-full">
 				<MainFooter className="mx-auto" />
 			</footer>
+			<RocketBtn />
 		</div>
 	)
 }

@@ -3,12 +3,12 @@ import { createSlice } from '@reduxjs/toolkit'
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    userIsLogin: false,
+    isUserLogin: true,
     isLineLogin: false,
   },
   reducers: {
-    setUserIsLogin: (state, action) => {
-      state.userIsLogin = action.payload
+    setIsUserLogin: (state, action) => {
+      state.isUserLogin = action.payload
     },
     setIsLineLogin: (state, action) => {
       state.isLineLogin = action.payload
@@ -17,6 +17,6 @@ export const userSlice = createSlice({
 })
 
 // 導出定義的方法
-export const { setUserIsLogin, setIsLineLogin } = userSlice.actions
+export const { setIsUserLogin, setIsLineLogin } = userSlice.actions
 
 export default userSlice.reducer
