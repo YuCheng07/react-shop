@@ -2,6 +2,7 @@ import Nav from '@/components/Nav.jsx'
 import MainFooter from '@/components/MainFooter.jsx'
 import CartItem from '@/components/CartPage/CartItem.jsx'
 import CartCheckout from '@/components/CartPage/CartCheckout.jsx'
+import RocketBtn from '@/components/RocketBtn'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { setCartList } from '@/store/slices/cartSlice'
@@ -23,7 +24,7 @@ function CartPage() {
 	},[])
 
 	return (
-		<div className="page-container">
+		<div className="page-containe bg-[#A99985]">
 			<header className="w-full">
 				<Nav className="mx-auto" />
 			</header>
@@ -51,6 +52,7 @@ function CartPage() {
 			<footer className="w-full">
 				<MainFooter className="mx-auto" />
 			</footer>
+			<RocketBtn />
 		</div>
 	)
 }

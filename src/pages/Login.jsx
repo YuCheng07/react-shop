@@ -2,10 +2,20 @@ import Nav from '@/components/Nav.jsx'
 import MainFooter from '@/components/MainFooter.jsx'
 import UserNativeLogin from '@/components/LoginPage/UserNativeLogin.jsx'
 import ThirdPartyLogin from '@/components/LoginPage/ThirdPartyLogin.jsx'
+import RocketBtn from '@/components/RocketBtn'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router'
 
 function Login() {
+	const navigate = useNavigate()
+	useEffect(()=>{
+		if(localStorage.getItem('token')){
+			navigate('/')
+		}
+	},[])
+
 	return (
-		<div className="page-container">
+		<div className="page-container bg-[#A99985]">
 			<header className="w-full">
 				<Nav className="mx-auto" />
 			</header>
@@ -20,6 +30,7 @@ function Login() {
 			<footer className="w-full">
 				<MainFooter className="mx-auto" />
 			</footer>
+			<RocketBtn />
 		</div>
 	)
 }

@@ -15,9 +15,9 @@ function CheckoutCartList() {
 							className="w-full h-20 flex justify-between items-center text-[#252323]"
 							key={index}
 						>
-							<div className="min-w-30 h-20">
+							<div className="max-w-30 h-20">
 								<img
-									src="https://bit.ly/2QiWeQW"
+									src={item.image ? item.image : '/src/assets/image/item02.jpg'}
 									alt=""
 									className="w-full h-full object-cover object-center"
 								/>

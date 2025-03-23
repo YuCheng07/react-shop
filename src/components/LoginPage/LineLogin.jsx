@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import { setUserIsLogin } from '@/store/slices/userSlice'
+import { setIsUserLogin } from '@/store/slices/userSlice'
 import Swal from 'sweetalert2'
 
 function LineLogin(){
@@ -47,7 +47,7 @@ function LineLogin(){
 									backdrop: false,
 									width: '20em',
 								});
-					dispatch(setUserIsLogin(true))
+					dispatch(setIsUserLogin(true))
 					navigate('/')
 				} else {
 					Swal.fire({

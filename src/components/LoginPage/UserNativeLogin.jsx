@@ -2,7 +2,7 @@ import User from '@/components/icon/User.jsx'
 import Key from '@/components/icon/Key.jsx'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUserIsLogin } from '@/store/slices/userSlice.js'
+import { setIsUserLogin } from '@/store/slices/userSlice.js'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import Swal from 'sweetalert2'
@@ -67,60 +67,70 @@ function UserNativeLogin() {
 				confirmButtonText: '確認',
 			})
 		} else {
-			const isCheck = await checkUserInfo(account.trim(), password.trim())
-			if (isCheck.status === 'success') {
-				rememberLoginInfo()
-				localStorage.setItem('token', JSON.stringify(isCheck.data.token))
-				setUserIsLogin(true)
-				Swal.fire({
-					title: '成功!',
-					text: '帳號密碼正確，自動跳轉中...',
-					icon: 'success',
-					showConfirmButton: false,
-					timer: 1800,
-				})
-				setTimeout(() => {
-					navigate('/')
-				}, 1800)
-			} else if (isCheck.status === 'error') {
-				if (isCheck.message === '無此帳號') {
-					try {
-						const res = await axios.post(`${API_URL}/api/signup`, {
-							email: account.trim(),
-							password: password.trim(),
-						})
-						if (res.status === 'success') {
-							rememberLoginInfo()
-							localStorage.setItem('token', JSON.stringify(res.data.token))
-							setUserIsLogin(true)
-							Swal.fire({
-								title: '成功!',
-								text: '自動註冊登入成功，自動跳轉中...',
-								icon: 'success',
-								showConfirmButton: false,
-								timer: 1800,
+			try {
+				const isCheck = await checkUserInfo(account.trim(), password.trim())
+				if (isCheck.status === 'success') {
+					rememberLoginInfo()
+					localStorage.setItem('token', JSON.stringify(isCheck.data.token))
+					setIsUserLogin(true)
+					Swal.fire({
+						title: '成功!',
+						text: '帳號密碼正確，自動跳轉中...',
+						icon: 'success',
+						showConfirmButton: false,
+						timer: 1800,
+					})
+					setTimeout(() => {
+						navigate('/')
+					}, 1800)
+				} else if (isCheck.status === 'error') {
+					if (isCheck.message === '無此帳號') {
+						try {
+							const res = await axios.post(`${API_URL}/api/signup`, {
+								email: account.trim(),
+								password: password.trim(),
 							})
-							setTimeout(() => {
-								navigate('/')
-							}, 1800)
+							if (res.status === 'success') {
+								rememberLoginInfo()
+								localStorage.setItem('token', JSON.stringify(res.data.token))
+								setIsUserLogin(true)
+								Swal.fire({
+									title: '成功!',
+									text: '自動註冊登入成功，自動跳轉中...',
+									icon: 'success',
+									showConfirmButton: false,
+									timer: 1800,
+								})
+								setTimeout(() => {
+									navigate('/')
+								}, 1800)
+							}
+						} catch (error) {
+							console.log(error)
+							Swal.fire({
+								title: '提醒您!',
+								text: '自動註冊失敗，請重新嘗試',
+								icon: 'error',
+								confirmButtonText: '確認',
+							})
 						}
-					} catch (error) {
-						console.log(error)
+					} else {
 						Swal.fire({
 							title: '提醒您!',
-							text: '自動註冊失敗，請重新嘗試',
+							text: isCheck.message,
 							icon: 'error',
 							confirmButtonText: '確認',
 						})
 					}
-				} else {
-					Swal.fire({
-						title: '提醒您!',
-						text: isCheck.message,
-						icon: 'error',
-						confirmButtonText: '確認',
-					})
 				}
+			} catch (error) {
+				Swal.fire({
+					title: '警告!',
+					text: '無法登入，請稍後再試!',
+					icon: 'error',
+					showConfirmButton: false,
+					timer: 1800,
+				})
 			}
 		}
 	}

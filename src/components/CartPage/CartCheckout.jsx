@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 
 function CartCheckout() {
 	const { cartList } = useSelector((state) => state.cart)
-	const { userIsLogin } = useSelector((state) => state.user)
+	const { isUserLogin } = useSelector((state) => state.user)
 	const navigate = useNavigate()
 
 	const cartListTotal = useMemo(() => {
@@ -23,7 +23,7 @@ function CartCheckout() {
 	}, [cartListTotal])
 
 	const handleCheckout = () => {
-		if (cartList.length > 0 && userIsLogin) {
+		if (cartList.length > 0 && isUserLogin) {
 			navigate('/checkout')
 		} else if (cartList.length === 0) {
 			Swal.fire({
@@ -32,7 +32,7 @@ function CartCheckout() {
 				icon: 'error',
 				confirmButtonText: '確認',
 			})
-		} else if (!userIsLogin) {
+		} else if (!isUserLogin) {
 			Swal.fire({
 				title: '提醒您!',
 				text: '請先登入再結帳!',
