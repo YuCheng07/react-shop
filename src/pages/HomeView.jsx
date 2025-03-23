@@ -1,8 +1,10 @@
 import Nav from '@/components/Nav.jsx'
 import MainFooter from '@/components/MainFooter.jsx'
 import ProductItem from '@/components/ProductItem.jsx'
+import RocketBtn from '@/components/RocketBtn'
 import axios from 'axios'
 import { useState, useMemo, useEffect } from 'react'
+
 
 function HomeView() {
 	const [itemTag, SetItemTag] = useState('限時特價') // 本日推薦 限時特價 熱門商品 近期新品
@@ -37,7 +39,7 @@ function HomeView() {
 	}, [])
 
 	return (
-		<div className="page-container">
+		<div className="page-container bg-[#A99985]">
 			<header className="w-full">
 				<Nav className="mx-auto" />
 			</header>
@@ -45,14 +47,14 @@ function HomeView() {
 				<section className="w-full mb-42">
 					<div className="mx-auto w-[940px] h-[496px] bg-green-400 text-center leading-[496px] relative">
 						<img
-							src="https://bit.ly/2OhbMHr"
+							src="src/assets/image/wallpaper01.jpg"
 							alt=""
 							className="w-full h-full object-cover"
 						/>
 						<div className="absolute w-full bottom-[-90px] flex justify-center overflow-hidden">
 							{itemTag !== '限時特價' ? (
 								<div
-									className="box-border relative w-[260px] h-[256px] flex justify-center items-center bg-[url('https://bit.ly/2zBjQuq')] bg-cover bg-center text-[#FFFFFF] before:absolute before:bg-[#A99985]/70 before:w-full before:h-full before:flex before:justify-center before:items-center before:backdrop-blur-[5px] transition-all duration-200 hover:cursor-pointer hover:text-[#252323] hover:before:bg-[#DAD2BC]/70"
+									className="box-border relative w-[260px] h-[256px] flex justify-center items-center bg-[url('/src/assets/image/gundam02.jpg')] bg-cover bg-center text-[#FFFFFF] before:absolute before:bg-[#A99985]/70 before:w-full before:h-full before:flex before:justify-center before:items-center before:backdrop-blur-[5px] transition-all duration-200 hover:cursor-pointer hover:text-[#252323] hover:before:bg-[#DAD2BC]/70"
 									onClick={() => SetItemTag('限時特價')}
 								>
 									<p className="realative z-1 w-6 flex justify-center items-center font-bold text-2xl">
@@ -111,7 +113,8 @@ function HomeView() {
 							</div>
 						) : (
 							<div className="w-full grid grid-cols-1 place-items-center gap-5 text-5xl font-extrabold">
-								資料未順利取得，請重新整理頁面!
+								商品載入中...
+								(後端使用的Render部屬方案需要時間啟動)
 							</div>
 						)}
 					</div>
@@ -120,6 +123,7 @@ function HomeView() {
 			<footer className="w-full">
 				<MainFooter className={'mx-auto'} />
 			</footer>
+			<RocketBtn />
 		</div>
 	)
 }

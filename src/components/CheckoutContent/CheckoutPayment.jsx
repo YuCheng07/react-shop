@@ -1,7 +1,36 @@
 import Check from '@/components/icon/Check.jsx'
 import CreditCard from '@/components/icon/CreditCard.jsx'
+import { useState, useEffect, useMemo } from 'react'
+import { useNavigate } from 'react-router'
+import { useDispatch } from 'react-redux'
+import Swal from 'sweetalert2'
+import axios from 'axios'
 
-function CheckoutPayment() {
+function CheckoutPayment({ setCheckoutStage }) {
+	const API_URL = import.meta.env.VITE_API_URL
+
+	const handleNextStepBtn = async () => {
+		try {
+			await sendOrder()
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const sendOrder = async () => {
+		try {
+			const res = await axios.post(
+				`${API_URL}/api/payment/create-order/newebpay`,
+				{
+					priceTotal: 1500,
+				}
+			)
+			return res
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	return (
 		<div className="w-[460px] bg-[#252323] flex justify-start items-center flex-col overflow-hidden rounded-xl">
 			<div className="bg-[#252323] w-full px-10 py-[30px]">
@@ -15,102 +44,30 @@ function CheckoutPayment() {
 								</div>
 							</div>
 						</div>
+
 						<div className="relative top-[-50%] w-5 h-5 border-1 border-[#8DA291] bg-[#252323] rounded-2xl">
-							<div className="absolute w-4/5 h-4/5 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-white rounded-2xl"></div>
-						</div>
-						<div className="relative top-[-50%] w-5 h-5 border-1 border-[#8DA291] bg-[#252323] rounded-2xl">
-							<div className="absolute w-4/5 h-4/5 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#252323] rounded-2xl"></div>
-						</div>
-					</div>
-				</div>
-				<div className="flex flex-col items-center gap-4">
-					<div className="w-full grid grid-cols-1 gap-2">
-						<div className="w-full flex justify-center items-start flex-col gap-2">
-							<h3 className="text-xl font-extrabold text-white">信用卡卡號</h3>
-							<div className="w-full flex justify-between items-center bg-[#EAF0ED] px-5">
-								<input
-									type="text"
-									placeholder="9012-3456-7890-1234"
-									className="w-full h-14 bg-[#EAF0ED] placeholder-[#8DA291] outline-0 text-[#252323]"
-								/>
-								<div className="flex justify-center items-center pl-5">
-									<CreditCard className="w-5 h-5" />
+							<div className="absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-white rounded-2xl">
+								<div className="w-full h-full flex justify-center items-center">
+									<Check className="fill-[#252323] w-4/5 h-4/5" />
 								</div>
 							</div>
 						</div>
-					</div>
-
-					<div className="w-full grid grid-cols-1 gap-2">
-						<div className="flex justify-center items-start flex-col gap-2">
-							<h3 className="text-xl font-extrabold text-white">持卡人姓名</h3>
-							<div className="w-full flex items-center gap-2">
-								<input
-									type="text"
-									placeholder="王"
-									className="w-full h-14 bg-[#EAF0ED] placeholder-[#8DA291] outline-0 text-[#252323] px-5"
-								/>
-								<input
-									type="text"
-									placeholder="小明"
-									className="w-full h-14 bg-[#EAF0ED] placeholder-[#8DA291] outline-0 text-[#252323] px-5"
-								/>
-							</div>
-						</div>
-					</div>
-
-					<div className="w-full grid grid-cols-1 gap-2">
-						<div className="flex justify-center items-start flex-col gap-2">
-							<h3 className="text-xl font-extrabold text-white">有效期限</h3>
-							<div className="w-full flex items-center gap-2">
-								<select
-									name=""
-									id=""
-									className="w-full h-14 bg-[#EAF0ED] placeholder-[#8DA291] outline-0 text-[#252323] px-5"
-									placeholder="123"
-								>
-									<option value="" disabled selected>
-										月
-									</option>
-									{[...Array(12)].map((_, index) => (
-										<option value={index + 1} key={index + 1}>
-											{index + 1}
-										</option>
-									))}
-								</select>
-								<select
-									name=""
-									id=""
-									className="w-full h-14 bg-[#EAF0ED] placeholder-[#8DA291] outline-0 text-[#252323] px-5"
-								>
-									<option value="" disabled selected>
-										年
-									</option>
-									{[2026, 2027, 2028].map((item, index) => (
-										<option value={item} key={index}>
-											{item}
-										</option>
-									))}
-								</select>
-							</div>
-						</div>
-					</div>
-
-					<div className="w-full grid grid-cols-1 gap-2">
-						<div className="flex justify-center items-start flex-col gap-2">
-							<h3 className="text-xl font-extrabold text-white">背面末三碼</h3>
-							<div className="w-full flex items-center gap-2">
-								<input
-									type="text"
-									placeholder="123"
-									className="w-full h-14 bg-[#EAF0ED] placeholder-[#8DA291] outline-0 text-[#252323] px-5"
-								/>
-							</div>
+						<div className="relative top-[-50%] w-5 h-5 border-1 border-[#8DA291] bg-[#252323] rounded-2xl">
+							<div className="absolute w-4/5 h-4/5 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-white rounded-2xl"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<button className="w-full h-[65px] bg-[#DAD2BC] text-2xl text-[#252323] font-extrabold flex justify-center items-center mt-auto hover:cursor-pointer">
-				下一步
+			<div className=" w-full px-10 mb-[30px]">
+				<div className="w-full h-20 text-white text-5xl font-bold text-center">
+					付款頁面跳轉中...
+				</div>
+			</div>
+			<button
+				onClick={handleNextStepBtn}
+				className="w-full h-[65px] bg-[#DAD2BC] text-2xl text-[#252323] font-extrabold flex justify-center items-center mt-auto hover:cursor-pointer"
+			>
+				請稍等片刻
 			</button>
 		</div>
 	)

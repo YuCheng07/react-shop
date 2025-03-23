@@ -5,25 +5,24 @@ import { addToCart, setCartList } from '@/store/slices/cartSlice.js'
 import { useSelector, useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
 
-function ProductItem({ itemData }) {
+function ProductItem({ className, itemData }) {
 	const dispatch = useDispatch()
-	const { cartList } = useSelector(state => state.cart)
+	const { isUserLogin } = useSelector((state) => state.user)
 
 	const handleAddToCartBtn = () => {
 		const saveCartList = JSON.parse(localStorage.getItem('cartList'))
-		
-		if(saveCartList > 0){
+
+		if (saveCartList > 0) {
 			dispatch(setCartList(saveCartList))
-		}else{
+		} else {
 			const saveItemData = {
 				id: itemData.id,
 				name: itemData.name,
 				price: itemData.price,
 			}
 			dispatch(addToCart(saveItemData))
-			
 		}
-		
+
 		Swal.fire({
 			title: '成功!',
 			text: '已將商品加入到購物車',
@@ -33,10 +32,10 @@ function ProductItem({ itemData }) {
 	}
 
 	return (
-		<div className="relative anime-item w-[300px] border-1 border-[#DAD2BC] box-border overflow-hidden rounded-xl transition-all duration-200">
-			<div className="max-w-[300px] h-[315px] bg-emerald-400">
+		<div className="relative anime-item w-[300px] border-1 border-[#DAD2BC] box-border overflow-hidden rounded-xl">
+			<div className="max-w-[300px] h-[315px] bg-white">
 				<img
-					src={itemData.image ? itemData.image : 'https://bit.ly/2zBjQuq'}
+					src={itemData.image ? itemData.image : '/src/assets/image/item01.jpg'}
 					alt=""
 					className="w-full h-full object-cover"
 				/>
@@ -67,10 +66,12 @@ function ProductItem({ itemData }) {
 					{itemData.tags ? itemData.tags[0] : '預設標籤'}
 				</p>
 			</div>
-			<div className="absolute top-[22px] right-[22px] w-5 h-5 flex justify-center items-center">
-				{/* <HollowHeart className=" hover:fill-amber-300 hover:cursor-pointer" /> */}
-				<SolidHeart className="fill-[#FFFFFF] stroke-[1px] stroke-amber-700 transiton-all duration-200 hover:cursor-pointer hover:fill-[#252323]" />
-			</div>
+			{isUserLogin && (
+				<div className="absolute top-[22px] right-[22px] w-5 h-5 flex justify-center items-center">
+					{/* <HollowHeart className=" hover:fill-amber-300 hover:cursor-pointer" /> */}
+					<SolidHeart className="fill-[#FFFFFF] stroke-[1px] stroke-amber-700 transiton-all duration-200 hover:cursor-pointer hover:fill-[#252323]" />
+				</div>
+			)}
 		</div>
 	)
 }
