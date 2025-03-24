@@ -15,17 +15,7 @@ function CartPage() {
 	const priceArray = cartList.map((item) => {
 		return item.price * item.quantity
 	})
-	console.log(priceArray);
-	
 	const priceTotal = priceArray.reduce((acc, cur) => acc + cur, 0)
-	console.log(typeof priceTotal)
-	console.log(priceTotal)
-
-
-	useEffect(() => {
-		console.log(cartList)
-	}, [cartList])
-
 	
 	useEffect(()=> {
 		const saveCartList = JSON.parse(localStorage.getItem('cartList'))

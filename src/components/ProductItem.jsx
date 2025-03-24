@@ -1,13 +1,63 @@
 import HollowHeart from '@/components/icon/HollowHeart.jsx'
 import SolidHeart from '@/components/icon/SolidHeart.jsx'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { addToCart, setCartList } from '@/store/slices/cartSlice.js'
 import { useSelector, useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
+import axios from 'axios'
+const API_URL = import.meta.env.VITE_API_URL
 
-function ProductItem({ className, itemData }) {
+function ProductItem({ className, itemData}) {
 	const dispatch = useDispatch()
 	const { isUserLogin } = useSelector((state) => state.user)
+	const [favoriteArr, setFavoriteArr] = useState([])
+
+	const handleFavorite = async () => {
+		try {
+			const res = await axios.post(
+				`${API_URL}/api/favorite/${itemData.id}`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${JSON.parse(
+							localStorage.getItem('token')
+						)}`,
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+			
+			if(res.data.status === 'success'){
+				Swal.fire({
+					icon: 'success',
+					title: '成功',
+					text: res.data.message,
+				})
+				fetchFavorite()
+			}else{
+				Swal.fire({
+					icon: 'error',
+					title: '警告',
+					text: '發生錯誤請重新嘗試',
+				})
+			}
+
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const isFavorite = useMemo(() => {
+		const item = favoriteArr.find((item) => {
+			return item.id === itemData.id
+		})
+
+		if (item) {
+			return true
+		} else {
+			return false
+		}
+	}, [favoriteArr])
 
 	const handleAddToCartBtn = () => {
 		const saveCartList = JSON.parse(localStorage.getItem('cartList'))
@@ -30,6 +80,36 @@ function ProductItem({ className, itemData }) {
 			confirmButtonText: '確認',
 		})
 	}
+
+	const getFavoriteList = async () => {
+		try {
+			const res = await axios.post(
+				`${API_URL}/api/favorite`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${JSON.parse(
+							localStorage.getItem('token')
+						)}`,
+						'Content-Type': 'application/json',
+					},
+				}
+			)
+
+			return res.data.data
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const fetchFavorite = async () => {
+		const items = await getFavoriteList()		
+		setFavoriteArr(items || [])
+	}
+
+	useEffect(() => {
+		fetchFavorite()
+	}, [])
 
 	return (
 		<div className="relative anime-item w-[300px] border-1 border-[#DAD2BC] box-border overflow-hidden rounded-xl">
@@ -67,9 +147,14 @@ function ProductItem({ className, itemData }) {
 				</p>
 			</div>
 			{isUserLogin && (
-				<div className="absolute top-[22px] right-[22px] w-5 h-5 flex justify-center items-center">
-					{/* <HollowHeart className=" hover:fill-amber-300 hover:cursor-pointer" /> */}
-					<SolidHeart className="fill-[#FFFFFF] stroke-[1px] stroke-amber-700 transiton-all duration-200 hover:cursor-pointer hover:fill-[#252323]" />
+				<div onClick={handleFavorite} className="absolute top-[22px] right-[22px] w-5 h-5 flex justify-center items-center">
+					<SolidHeart
+						className={`${
+							isFavorite ? 'fill-[#252323]' : 'fill-[#FFFFFF]'
+						} stroke-[1px] transiton-all duration-200 hover:cursor-pointer ${
+							isFavorite ? 'hover:fill-[#FFFFFF]' : 'hover:fill-[#252323]'
+						} ${isFavorite ? 'hover:scale-130' : 'hover:scale-130'} `}
+					/>
 				</div>
 			)}
 		</div>

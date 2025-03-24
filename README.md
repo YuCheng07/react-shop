@@ -1,13 +1,59 @@
-# React + Vite
+# React Shop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+使用 React + Redux + React-router + Tailwind + Firestore 製作的簡易電商 (前端部分)
 
-Currently, two official plugins are available:
+## 目前已完成功能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [x] 網站原生登入、自動註冊
+- [x] 第三方登入 (GOOGLE、LINE)
+- [x] 增加、移除購物車
+- [x] 第三方金流 (藍新金流)
+- [x] 增加、移除收藏商品
+- [x] 簡易訂單紀錄
 
-## Expanding the ESLint configuration
+## 安裝
+以下將會引導你如何安裝此專案到你的電腦上。
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# react-shop
+### 取得專案
+
+```
+git clone https://github.com/YuCheng07/react-shop.git
+```
+
+### 移動到專案內
+
+```
+cd react-shop
+```
+
+### 安裝套件
+
+```
+npm install
+```
+
+### 運行專案
+
+```
+npm run dev
+```
+
+### 開啟專案
+
+運行後會自動開啟瀏覽器，或在瀏覽器輸入以下網址
+
+```
+http://localhost:5173/
+```
+
+## 資料夾
+- pages - 主要頁面
+- components - 組件
+
+## 環境變數
+- VITE_API_URL=""  #後端網址
+- VITE_BASE_URL=""  #前端網址
+- VITE_LINE_CLIENT_ID=""  #LINE CLIENT ID
+- VITE_LINE_REDIRECT_URI=""  #LINE 重定向網址
+- VITE_GOOGLE_CLIENT_ID=""  #GOOGLE CLIENT ID
+- VITE_GOOGLE_CLIENT_SECRET_KEY=""  #GOOGLE CLIENT 密鑰
