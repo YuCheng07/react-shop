@@ -12,7 +12,7 @@ const SuccessPage = lazy(() => import('@/pages/SuccessPage.jsx'))
 const MemberCenter = lazy(() => import('@/pages/MemberCenter.jsx'))
 const Favorite = lazy(() => import('@/pages/Favorite.jsx'))
 
-const NewebPayment = lazy(() => import('@/components/checkoutContent/NewebPayment.jsx'))
+const NewebPayment = lazy(() => import('@/components/CheckoutContent/NewebPayment.jsx'))
 const LineLogin = lazy(() => import('@/components/LoginPage/LineLogin.jsx'))
 const GoogleLoginPage = lazy(() =>
 	import('@/components/LoginPage/GoogleLoginPage.jsx')
