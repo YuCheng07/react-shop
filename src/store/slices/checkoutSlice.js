@@ -15,6 +15,7 @@ export const checkoutSlice = createSlice({
 			address: '',
 			businessNum: '',
 		},
+		paymentUrlInfo: {},
 	},
 	reducers: {
 		setCheckoutStage: (state, action) => {
@@ -29,6 +30,9 @@ export const checkoutSlice = createSlice({
 		setReceiptInfo: (state, action) => {
 			state.receiptInfo = action.payload
 		},
+		setPaymentUrlInfo: (state, action) => {
+			state.paymentUrlInfo = action.payload
+		},
 	},
 })
 
@@ -37,6 +41,7 @@ export const {
 	setReceiptType,
 	setOrderInfo,
 	setReceiptInfo,
+	setPaymentUrlInfo
 } = checkoutSlice.actions
 
 export default checkoutSlice.reducer

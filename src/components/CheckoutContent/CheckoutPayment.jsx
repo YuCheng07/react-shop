@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import { setPaymentUrlInfo } from '@/store/slices/checkoutSlice'
 
 function CheckoutPayment({ setCheckoutStage }) {
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	const API_URL = import.meta.env.VITE_API_URL
 
 	const handleNextStepBtn = async () => {
@@ -26,7 +29,10 @@ function CheckoutPayment({ setCheckoutStage }) {
 				}
 			)
 			console.log(res);
-			
+			if(res.status === success){
+				dispatch(setPaymentUrlInfo(res.data.data))
+				navigate('/newebpay-payment')
+			}
 		} catch (error) {
 			console.log(error)
 		}
