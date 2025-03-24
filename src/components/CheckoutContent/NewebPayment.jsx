@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 function NewebPayment() {
+  localStorage.removeItem('cartList')
 	const { paymentUrlInfo } = useSelector((state) => state.checkout)
 	const formRef = useRef(null)
 

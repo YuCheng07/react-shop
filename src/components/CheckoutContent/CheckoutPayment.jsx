@@ -2,7 +2,7 @@ import Check from '@/components/icon/Check.jsx'
 import CreditCard from '@/components/icon/CreditCard.jsx'
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import { setPaymentUrlInfo } from '@/store/slices/checkoutSlice'
@@ -11,6 +11,10 @@ function CheckoutPayment({ setCheckoutStage }) {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const API_URL = import.meta.env.VITE_API_URL
+	const { orderInfo, receiptInfo } = useSelector((state) => state.checkout)
+	const { cartList } = useSelector((state) => state.cart)
+	console.log(orderInfo, receiptInfo);
+	
 
 	const handleNextStepBtn = async () => {
 		try {
@@ -18,18 +22,39 @@ function CheckoutPayment({ setCheckoutStage }) {
 		} catch (error) {
 			console.log(error)
 		}
-	}
+	}	
 
 	const sendOrder = async () => {
+		const simpleCartList = cartList.map((item) => {
+			return {
+				id: item.id,
+				name: item.name,
+				quantity: item.quantity,
+			}
+		})
+		
+		const priceArray = cartList.map((item) => {
+			item.price * item.quantity
+		})
+		const priceTotal = priceArray.reduce((acc, cur) => acc + cur, 0)
 		try {
 			const res = await axios.post(
 				`${API_URL}/api/payment/create-order/newebpay`,
 				{
-					priceTotal: 1500,
+					headers: {
+						Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+						'Content-Type': 'application/json',
+					}
+				},
+				{
+					priceTotal: priceTotal,
+					cartList: simpleCartList,
+					orderInfo: orderInfo,
+					receiptInfo: receiptInfo,
 				}
 			)
-			console.log(res);
-			if(res.data.status === 'success'){
+			console.log(res)
+			if (res.data.status === 'success') {
 				dispatch(setPaymentUrlInfo(res.data.data.paymentUrl))
 				navigate('/newebpay-payment')
 			}
@@ -37,6 +62,10 @@ function CheckoutPayment({ setCheckoutStage }) {
 			console.log(error)
 		}
 	}
+
+	useEffect(() => {
+		handleNextStepBtn()
+	}, [])
 
 	return (
 		<div className="w-[460px] bg-[#252323] flex justify-start items-center flex-col overflow-hidden rounded-xl">
@@ -70,10 +99,7 @@ function CheckoutPayment({ setCheckoutStage }) {
 					付款頁面跳轉中...
 				</div>
 			</div>
-			<button
-				onClick={handleNextStepBtn}
-				className="w-full h-[65px] bg-[#DAD2BC] text-2xl text-[#252323] font-extrabold flex justify-center items-center mt-auto hover:cursor-pointer"
-			>
+			<button className="w-full h-[65px] bg-[#DAD2BC] text-2xl text-[#252323] font-extrabold flex justify-center items-center mt-auto hover:cursor-pointer">
 				請稍等片刻
 			</button>
 		</div>
