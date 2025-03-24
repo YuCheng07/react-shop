@@ -29,8 +29,8 @@ function CheckoutPayment({ setCheckoutStage }) {
 				}
 			)
 			console.log(res);
-			if(res.data.data.status === 'success'){
-				dispatch(setPaymentUrlInfo(res.data.data))
+			if(res.data.status === 'success'){
+				dispatch(setPaymentUrlInfo(res.data.data.paymentUrl))
 				navigate('/newebpay-payment')
 			}
 		} catch (error) {
