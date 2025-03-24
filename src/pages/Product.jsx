@@ -49,6 +49,8 @@ function Product() {
 				return [1, 2, 3]
 			} else if (pages === 1) {
 				return [1]
+			} else if (pages === 0) {
+				return [0]
 			} else {
 				return [1, 2]
 			}
@@ -118,7 +120,7 @@ function Product() {
 				<section>
 					<div className="mx-auto w-235 h-124 mb-15">
 						<img
-							src="https://bit.ly/2Qodh3Z"
+							src="/assets/image/wallpaper04.jpg"
 							alt=""
 							className="w-full h-full object-center"
 						/>

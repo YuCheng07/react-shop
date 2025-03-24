@@ -12,18 +12,18 @@ const SuccessPage = lazy(() => import('@/pages/SuccessPage.jsx'))
 const MemberCenter = lazy(() => import('@/pages/MemberCenter.jsx'))
 const Favorite = lazy(() => import('@/pages/Favorite.jsx'))
 
-const NewebPayment = lazy(() => import('@/components/CheckoutContent/NewebPayment.jsx'))
+const NewebPayment = lazy(() =>
+	import('@/components/CheckoutContent/NewebPayment.jsx')
+)
 const LineLogin = lazy(() => import('@/components/LoginPage/LineLogin.jsx'))
 const GoogleLoginPage = lazy(() =>
 	import('@/components/LoginPage/GoogleLoginPage.jsx')
 )
 
-
-
 const isAuthenticated = true
 
 const ProtectedRoute = ({ element }) => {
-	const { isUserLogin } = useSelector((state => state.user))
+	const { isUserLogin } = useSelector((state) => state.user)
 	return isAuthenticated ? element : <Navigate to="/" />
 }
 
@@ -73,7 +73,7 @@ const router = createBrowserRouter(
 		},
 		{
 			path: '/newebpay-payment',
-			element: <NewebPayment />
+			element: <NewebPayment />,
 		},
 	],
 	{

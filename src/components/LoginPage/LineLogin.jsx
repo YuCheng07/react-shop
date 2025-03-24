@@ -34,7 +34,6 @@ function LineLogin(){
 		if (data.code) {
 			const getLineUserInfo = async () => {
 				const res = await lineLogin(data)
-				console.log(res);
 				
 				if (res) {
 					const { token } = res.data.data
