@@ -19,8 +19,6 @@ function GoogleLoginPage() {
 			status: queryParams.get('status'),
 			message: queryParams.get('message'),
 		}
-		console.log(data);
-		
 
 		if (data.token) {
 			localStorage.setItem('token', JSON.stringify(data.token))

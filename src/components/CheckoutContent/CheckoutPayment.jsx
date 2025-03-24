@@ -13,7 +13,6 @@ function CheckoutPayment({ setCheckoutStage }) {
 	const API_URL = import.meta.env.VITE_API_URL
 	const { orderInfo, receiptInfo } = useSelector((state) => state.checkout)
 	const { cartList } = useSelector((state) => state.cart)
-	console.log(orderInfo, receiptInfo)
 
 	const handleNextStepBtn = async () => {
 		try {
@@ -54,7 +53,6 @@ function CheckoutPayment({ setCheckoutStage }) {
 					},
 				}
 			)
-			console.log(res)
 			if (res.data.status === 'success') {
 				dispatch(setPaymentUrlInfo(res.data.data.paymentUrl))
 				navigate('/newebpay-payment')

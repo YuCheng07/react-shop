@@ -18,10 +18,8 @@ function UserNativeLogin() {
 	const rememberLoginInfo = () => {
 		if (isRemeberActive) {
 			localStorage.setItem('loginACC', JSON.stringify(account.trim()))
-			console.log('更新/刪除記住資訊')
 		} else {
 			localStorage.removeItem('loginACC')
-			console.log('取消記住資訊')
 		}
 	}
 
