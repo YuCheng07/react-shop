@@ -25,7 +25,8 @@ function CheckoutPayment({ setCheckoutStage }) {
 					priceTotal: 1500,
 				}
 			)
-			return res
+			console.log(res);
+			
 		} catch (error) {
 			console.log(error)
 		}
