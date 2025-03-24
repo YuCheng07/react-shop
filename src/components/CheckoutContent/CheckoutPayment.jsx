@@ -13,8 +13,7 @@ function CheckoutPayment({ setCheckoutStage }) {
 	const API_URL = import.meta.env.VITE_API_URL
 	const { orderInfo, receiptInfo } = useSelector((state) => state.checkout)
 	const { cartList } = useSelector((state) => state.cart)
-	console.log(orderInfo, receiptInfo);
-	
+	console.log(orderInfo, receiptInfo)
 
 	const handleNextStepBtn = async () => {
 		try {
@@ -22,7 +21,7 @@ function CheckoutPayment({ setCheckoutStage }) {
 		} catch (error) {
 			console.log(error)
 		}
-	}	
+	}
 
 	const sendOrder = async () => {
 		const simpleCartList = cartList.map((item) => {
@@ -32,7 +31,7 @@ function CheckoutPayment({ setCheckoutStage }) {
 				quantity: item.quantity,
 			}
 		})
-		
+
 		const priceArray = cartList.map((item) => {
 			item.price * item.quantity
 		})
@@ -41,16 +40,18 @@ function CheckoutPayment({ setCheckoutStage }) {
 			const res = await axios.post(
 				`${API_URL}/api/payment/create-order/newebpay`,
 				{
-					headers: {
-						'authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
-						'Content-Type': 'application/json',
-					}
-				},
-				{
 					priceTotal: priceTotal,
 					cartList: simpleCartList,
 					orderInfo: orderInfo,
 					receiptInfo: receiptInfo,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${JSON.parse(
+							localStorage.getItem('token')
+						)}`,
+						'Content-Type': 'application/json',
+					},
 				}
 			)
 			console.log(res)
