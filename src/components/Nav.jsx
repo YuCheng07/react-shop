@@ -4,13 +4,14 @@ import Ghost from '@/components/icon/Ghost.jsx'
 import Cart from '@/components/icon/Cart.jsx'
 import { useSelector, useDispatch } from 'react-redux'
 import { setIsUserLogin } from '@/store/slices/userSlice.js'
+import { setCartList } from '@/store/slices/cartSlice.js'
 import Swal from 'sweetalert2'
 
 function Nav({ className }) {
 	const navigate = useNavigate()
-
 	const { isUserLogin } = useSelector((state) => state.user)
 	const dispatch = useDispatch()
+
 
 	const switchUserState = () => {
 		const token = localStorage.getItem('token')
@@ -32,7 +33,10 @@ function Nav({ className }) {
 						width: '20em',
 					})
 					dispatch(setIsUserLogin(false))
+					dispatch(setCartList([]))
 					localStorage.removeItem('token')
+					localStorage.removeItem('cartList')
+					navigate('/')
 				}
 			})
 		} else {

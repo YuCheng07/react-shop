@@ -23,6 +23,8 @@ function CheckoutPayment({ setCheckoutStage }) {
 		}
 	}
 
+	console.log(JSON.parse(localStorage.getItem('token')))
+
 	const sendOrder = async () => {
 		const simpleCartList = cartList.map((item) => {
 			return {
