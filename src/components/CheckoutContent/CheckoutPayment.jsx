@@ -42,7 +42,7 @@ function CheckoutPayment({ setCheckoutStage }) {
 				`${API_URL}/api/payment/create-order/newebpay`,
 				{
 					headers: {
-						Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+						'authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
 						'Content-Type': 'application/json',
 					}
 				},
