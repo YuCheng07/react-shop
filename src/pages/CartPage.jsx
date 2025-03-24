@@ -11,6 +11,17 @@ function CartPage() {
 	const { cartList } = useSelector((state) => state.cart)
 	const dispatch = useDispatch()
 
+
+	const priceArray = cartList.map((item) => {
+		return item.price * item.quantity
+	})
+	console.log(priceArray);
+	
+	const priceTotal = priceArray.reduce((acc, cur) => acc + cur, 0)
+	console.log(typeof priceTotal)
+	console.log(priceTotal)
+
+
 	useEffect(() => {
 		console.log(cartList)
 	}, [cartList])

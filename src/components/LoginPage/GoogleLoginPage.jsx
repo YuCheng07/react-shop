@@ -23,7 +23,7 @@ function GoogleLoginPage() {
 		
 
 		if (data.token) {
-			localStorage.setItem('token', data.token)
+			localStorage.setItem('token', JSON.stringify(data.token))
 			Swal.fire({
 				position: "top-end",
 				title: data.message,

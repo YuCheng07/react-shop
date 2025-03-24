@@ -23,8 +23,6 @@ function CheckoutPayment({ setCheckoutStage }) {
 		}
 	}
 
-	console.log(JSON.parse(localStorage.getItem('token')))
-
 	const sendOrder = async () => {
 		const simpleCartList = cartList.map((item) => {
 			return {
@@ -35,7 +33,7 @@ function CheckoutPayment({ setCheckoutStage }) {
 		})
 
 		const priceArray = cartList.map((item) => {
-			item.price * item.quantity
+			return item.price * item.quantity
 		})
 		const priceTotal = priceArray.reduce((acc, cur) => acc + cur, 0)
 		try {

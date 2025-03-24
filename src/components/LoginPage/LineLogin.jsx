@@ -38,7 +38,7 @@ function LineLogin(){
 				
 				if (res) {
 					const { token } = res.data.data
-					localStorage.setItem('token', token)
+					localStorage.setItem('token', JSON.stringify(token))
 					Swal.fire({
 									position: "top-end",
 									title: '登入成功',
