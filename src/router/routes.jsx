@@ -11,6 +11,7 @@ const Checkout = lazy(() => import('@/pages/Checkout.jsx'))
 const SuccessPage = lazy(() => import('@/pages/SuccessPage.jsx'))
 const MemberCenter = lazy(() => import('@/pages/MemberCenter.jsx'))
 const Favorite = lazy(() => import('@/pages/Favorite.jsx'))
+const NewebPayment = lazy(() => import('@/pages/NewebPayment.jsx'))
 
 const LineLogin = lazy(() => import('@/components/LoginPage/LineLogin.jsx'))
 const GoogleLoginPage = lazy(() =>
@@ -69,6 +70,10 @@ const router = createBrowserRouter(
 		{
 			path: '/google-auth',
 			element: <GoogleLoginPage />,
+		},
+		{
+			path: '/newebpay-payment',
+			element: <NewebPayment />
 		},
 	],
 	{

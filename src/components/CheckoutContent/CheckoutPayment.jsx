@@ -11,7 +11,7 @@ function CheckoutPayment({ setCheckoutStage }) {
 
 	const handleNextStepBtn = async () => {
 		try {
-			await sendOrder()
+			const res = await sendOrder()
 		} catch (error) {
 			console.log(error)
 		}
