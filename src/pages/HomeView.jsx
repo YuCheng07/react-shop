@@ -114,7 +114,7 @@ function HomeView() {
 						) : (
 							<div className="w-full grid grid-cols-1 place-items-center gap-5 text-5xl font-extrabold">
 								商品載入中...
-								(後端使用的Renderao部屬免費方案需要時間啟動，如商品未載入請重新整理)
+								(後端使用的Render部屬免費方案需要時間啟動，如商品未載入請重新整理)
 							</div>
 						)}
 					</div>
