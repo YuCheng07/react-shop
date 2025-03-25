@@ -10,7 +10,7 @@ function MemberCenter() {
 
 	const sortOrders = useMemo(() => {
 		const newOrders = orders.slice().sort((a, b) => b.orderId - a.orderId)
-		return newOrders.map(item => {
+		return newOrders.map((item) => {
 			const date = new Date(item.orderId * 1000)
 			const year = date.getFullYear()
 			const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -24,7 +24,7 @@ function MemberCenter() {
 				orderId: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
 			}
 		})
-	},[orders])
+	}, [orders])
 
 	const getOrders = async () => {
 		try {
@@ -42,7 +42,20 @@ function MemberCenter() {
 			)
 			return res.data.data
 		} catch (error) {
-			console.log(error)
+			if (error.response.status === 403) {
+				await dispatch(setIsUserLogin(false))
+				localStorage.removeItem('token')
+				Swal.fire({
+					icon: 'error',
+					title: '登入過期',
+					text: '請重新登入，將導回登入頁面...',
+					timer: 2500,
+					showConfirmButton: false,
+				})
+				setTimeout(() => {
+					navigate('/login')
+				}, 2500)
+			}
 		}
 	}
 
@@ -68,9 +81,16 @@ function MemberCenter() {
 						{sortOrders.length > 0 &&
 							sortOrders.map((item, index) => {
 								return (
-									<div key={index + 1} className="mx-auto w-235 border-[#252323] border-2 bg-white rounded-xl m-7.5 p-7.5 flex justify-between items-center">
-										<span className="text-2xl font-bold">日期: {item.orderId}</span>
-										<span className="text-2xl font-bold">金額: NT$ {item.priceTotal} </span>
+									<div
+										key={index + 1}
+										className="mx-auto w-235 border-[#252323] border-2 bg-white rounded-xl m-7.5 p-7.5 flex justify-between items-center"
+									>
+										<span className="text-2xl font-bold">
+											日期: {item.orderId}
+										</span>
+										<span className="text-2xl font-bold">
+											金額: NT$ {item.priceTotal}{' '}
+										</span>
 										<span className="text-2xl font-bold">商品詳細</span>
 									</div>
 								)
