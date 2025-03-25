@@ -2,15 +2,18 @@ import HollowHeart from '@/components/icon/HollowHeart.jsx'
 import SolidHeart from '@/components/icon/SolidHeart.jsx'
 import { useState, useEffect, useMemo } from 'react'
 import { addToCart, setCartList } from '@/store/slices/cartSlice.js'
+import { setIsUserLogin } from '@/store/slices/userSlice.js'
 import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router'
 import Swal from 'sweetalert2'
 import axios from 'axios'
-const API_URL = import.meta.env.VITE_API_URL
 
-function ProductItem({ className, itemData}) {
+function ProductItem({ className, itemData }) {
 	const dispatch = useDispatch()
 	const { isUserLogin } = useSelector((state) => state.user)
 	const [favoriteArr, setFavoriteArr] = useState([])
+	const navigate = useNavigate()
+	const API_URL = import.meta.env.VITE_API_URL
 
 	const handleFavorite = async () => {
 		try {
@@ -26,24 +29,36 @@ function ProductItem({ className, itemData}) {
 					},
 				}
 			)
-			
-			if(res.data.status === 'success'){
+
+			if (res.data.status === 'success') {
 				Swal.fire({
 					icon: 'success',
 					title: '成功',
 					text: res.data.message,
 				})
 				fetchFavorite()
-			}else{
+			} else {
 				Swal.fire({
 					icon: 'error',
 					title: '警告',
 					text: '發生錯誤請重新嘗試',
 				})
 			}
-
 		} catch (error) {
-			console.log(error)
+			if (error.response.status === 403) {
+				await dispatch(setIsUserLogin(false))
+				localStorage.removeItem('token')
+				Swal.fire({
+					icon: 'error',
+					title: '登入過期',
+					text: '請重新登入，將導回登入頁面...',
+					timer: 2500,
+					showConfirmButton: false,
+				})
+				setTimeout(() => {
+					navigate('/login')
+				}, 2500)
+			}
 		}
 	}
 
@@ -98,17 +113,30 @@ function ProductItem({ className, itemData}) {
 
 			return res.data.data
 		} catch (error) {
-			console.log(error)
+			if (error.response.status === 403) {
+				await dispatch(setIsUserLogin(false))
+				localStorage.removeItem('token')
+				Swal.fire({
+					icon: 'error',
+					title: '登入過期',
+					text: '請重新登入，將導回登入頁面...',
+					timer: 2500,
+					showConfirmButton: false,
+				})
+				setTimeout(() => {
+					navigate('/login')
+				}, 2500)
+			}
 		}
 	}
 
 	const fetchFavorite = async () => {
-		const items = await getFavoriteList()		
+		const items = await getFavoriteList()
 		setFavoriteArr(items || [])
 	}
 
 	useEffect(() => {
-		if(localStorage.getItem('token')){
+		if (localStorage.getItem('token')) {
 			fetchFavorite()
 		}
 	}, [])
@@ -149,7 +177,10 @@ function ProductItem({ className, itemData}) {
 				</p>
 			</div>
 			{isUserLogin && (
-				<div onClick={handleFavorite} className="absolute top-[22px] right-[22px] w-5 h-5 flex justify-center items-center">
+				<div
+					onClick={handleFavorite}
+					className="absolute top-[22px] right-[22px] w-5 h-5 flex justify-center items-center"
+				>
 					<SolidHeart
 						className={`${
 							isFavorite ? 'fill-[#252323]' : 'fill-[#FFFFFF]'

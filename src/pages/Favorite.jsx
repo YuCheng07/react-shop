@@ -31,7 +31,20 @@ function Favorite() {
 
 			return res.data.data
 		} catch (error) {
-			console.log(error)
+			if (error.response.status === 403) {
+				await dispatch(setIsUserLogin(false))
+				localStorage.removeItem('token')
+				Swal.fire({
+					icon: 'error',
+					title: '登入過期',
+					text: '請重新登入，將導回登入頁面...',
+					timer: 2500,
+					showConfirmButton: false,
+				})
+				setTimeout(() => {
+					navigate('/login')
+				}, 2500)
+			}
 		}
 	}
 
@@ -62,7 +75,7 @@ function Favorite() {
 				return [1, 2, 3]
 			} else if (pages === 1) {
 				return [1]
-			}else if (pages === 0) {
+			} else if (pages === 0) {
 				return [0]
 			} else {
 				return [1, 2]
@@ -198,7 +211,11 @@ function Favorite() {
 							<div className="col-span-2 grid grid-cols-2 gap-5">
 								{showedItems.length !== 0 &&
 									showedItems.map((item, index) => (
-										<ProductItem key={item.id} itemData={item} refreshList={fetchFavorite} />
+										<ProductItem
+											key={item.id}
+											itemData={item}
+											refreshList={fetchFavorite}
+										/>
 									))}
 							</div>
 						</div>

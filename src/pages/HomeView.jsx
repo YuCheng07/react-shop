@@ -54,7 +54,7 @@ function HomeView() {
 						<div className="absolute w-full bottom-[-90px] flex justify-center overflow-hidden">
 							{itemTag !== '限時特價' ? (
 								<div
-									className="box-border relative w-[260px] h-[256px] flex justify-center items-center bg-[url('/src/assets/image/gundam02.jpg')] bg-cover bg-center text-[#FFFFFF] before:absolute before:bg-[#A99985]/70 before:w-full before:h-full before:flex before:justify-center before:items-center before:backdrop-blur-[5px] transition-all duration-200 hover:cursor-pointer hover:text-[#252323] hover:before:bg-[#DAD2BC]/70"
+									className="box-border relative w-[260px] h-[256px] flex justify-center items-center bg-[url('https://bit.ly/2zBjQuq')] bg-cover bg-center text-[#FFFFFF] before:absolute before:bg-[#A99985]/70 before:w-full before:h-full before:flex before:justify-center before:items-center before:backdrop-blur-[5px] transition-all duration-200 hover:cursor-pointer hover:text-[#252323] hover:before:bg-[#DAD2BC]/70"
 									onClick={() => SetItemTag('限時特價')}
 								>
 									<p className="realative z-1 w-6 flex justify-center items-center font-bold text-2xl">

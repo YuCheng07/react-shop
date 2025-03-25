@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import { setPaymentUrlInfo } from '@/store/slices/checkoutSlice'
+import { setIsUserLogin } from '@/store/slices/userSlice' 
 
 function CheckoutPayment({ setCheckoutStage }) {
 	const dispatch = useDispatch()
@@ -58,7 +59,22 @@ function CheckoutPayment({ setCheckoutStage }) {
 				navigate('/newebpay-payment')
 			}
 		} catch (error) {
-			console.log(error)
+			if (error.response.status === 403) {
+				await dispatch(setIsUserLogin(false))
+				
+				localStorage.removeItem('token')
+				Swal.fire({
+					icon: 'error',
+					title: '登入過期',
+					text: '請重新登入，將導回登入頁面...',
+					timer: 2500,
+					showConfirmButton: false,
+				})
+				setTimeout(() => {
+					dispatch(setCheckoutStage('address'))
+					navigate('/login')
+				}, 2500)
+			}
 		}
 	}
 
