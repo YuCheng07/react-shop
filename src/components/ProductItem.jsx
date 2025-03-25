@@ -108,7 +108,9 @@ function ProductItem({ className, itemData}) {
 	}
 
 	useEffect(() => {
-		fetchFavorite()
+		if(localStorage.getItem('token')){
+			fetchFavorite()
+		}
 	}, [])
 
 	return (
