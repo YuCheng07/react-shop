@@ -78,6 +78,12 @@ function Product() {
 		}
 	}, [selectedPage, pages, itemTag])
 
+	const handlePageBtn = (num) => {
+		if(num > 0){
+			setSelectedPage(num)
+		}
+	}
+
 	const limitedOfferProducts = useMemo(() => {
 		return products.filter((item) => item.tags[0] === '限時特價').length
 	}, [products])
@@ -192,7 +198,7 @@ function Product() {
 						<div className="col-span-2 grid grid-cols-2 gap-5">
 							{showedItems.length !== 0
 								? showedItems.map((item, index) => (
-										<ProductItem key={item.id} itemData={item} />
+										<ProductItem key={item.id} itemData={item} refreshFn={getItems} />
 								  ))
 								: '資料未順利取得，請重新整理頁面!'}
 						</div>
@@ -216,7 +222,7 @@ function Product() {
 										item === selectedPage ? 'bg-[#252323] text-white' : ''
 									} `}
 									key={item}
-									onClick={() => setSelectedPage(item)}
+									onClick={() => handlePageBtn(item)}
 								>
 									{item}
 								</div>

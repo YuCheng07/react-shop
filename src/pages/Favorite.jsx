@@ -104,6 +104,12 @@ function Favorite() {
 		}
 	}, [selectedPage, pages, itemTag])
 
+	const handlePageBtn = (num) => {
+		if(num > 0){
+			setSelectedPage(num)
+		}
+	}
+
 	const limitedOfferProducts = useMemo(() => {
 		return products.filter((item) => item.tags[0] === '限時特價').length
 	}, [products])
@@ -125,6 +131,7 @@ function Favorite() {
 	}, [products])
 
 	const fetchFavorite = async () => {
+		setProducts([])
 		const items = await getFavoriteList()
 		setProducts(items || [])
 	}
@@ -214,7 +221,7 @@ function Favorite() {
 										<ProductItem
 											key={item.id}
 											itemData={item}
-											refreshList={fetchFavorite}
+											refreshFn={fetchFavorite}
 										/>
 									))}
 							</div>
@@ -238,7 +245,7 @@ function Favorite() {
 											item === selectedPage ? 'bg-[#252323] text-white' : ''
 										} `}
 										key={item}
-										onClick={() => setSelectedPage(item)}
+										onClick={() => handlePageBtn(item)}
 									>
 										{item}
 									</div>
