@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 
-function ProductItem({ className, itemData }) {
+function ProductItem({ className, itemData, refreshFn }) {
 	const dispatch = useDispatch()
 	const { isUserLogin } = useSelector((state) => state.user)
 	const [favoriteArr, setFavoriteArr] = useState([])
@@ -37,6 +37,7 @@ function ProductItem({ className, itemData }) {
 					text: res.data.message,
 				})
 				fetchFavorite()
+				refreshFn()
 			} else {
 				Swal.fire({
 					icon: 'error',
@@ -76,7 +77,6 @@ function ProductItem({ className, itemData }) {
 
 	const handleAddToCartBtn = () => {
 		const saveCartList = JSON.parse(localStorage.getItem('cartList'))
-
 		if (saveCartList > 0) {
 			dispatch(setCartList(saveCartList))
 		} else {
@@ -87,7 +87,7 @@ function ProductItem({ className, itemData }) {
 			}
 			dispatch(addToCart(saveItemData))
 		}
-
+		
 		Swal.fire({
 			title: '成功!',
 			text: '已將商品加入到購物車',
@@ -142,7 +142,7 @@ function ProductItem({ className, itemData }) {
 	}, [])
 
 	return (
-		<div className="relative anime-item w-[300px] border-1 border-[#DAD2BC] box-border overflow-hidden rounded-xl">
+		<div className="relative anime-item w-[300px] border-1 border-[#DAD2BC] box-border overflow-hidden rounded-xl transition-all duration-350 hover:border-black">
 			<div className="max-w-[300px] h-[315px] bg-white">
 				<img
 					src={itemData.image ? itemData.image : '/assets/image/item01.jpg'}

@@ -30,16 +30,17 @@ function HomeView() {
 		}
 	}, [itemTag, products])
 
+	const fetchProducts = async () => {
+		const items = await getItems()
+		setProducts(items)
+	}
+	
 	useEffect(() => {
-		const fetchProducts = async () => {
-			const items = await getItems()
-			setProducts(items)
-		}
 		fetchProducts()
 	}, [])
 
 	return (
-		<div className="page-container bg-[#A99985]">
+		<div className="page-container bg-gradient-to-br from-[#A99985] via-[#e0dad2] to-[#e0dad2]">
 			<header className="w-full">
 				<Nav className="mx-auto" />
 			</header>
@@ -108,7 +109,7 @@ function HomeView() {
 						{products.length > 0 ? (
 							<div className="w-full grid grid-cols-3 gap-5">
 								{selectedProducts.map((item, index) => (
-									<ProductItem key={item.id} itemData={item} />
+									<ProductItem key={item.id} itemData={item} refreshFn={fetchProducts} />
 								))}
 							</div>
 						) : (
